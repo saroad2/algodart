@@ -1,6 +1,8 @@
+import 'package:algodart/number_conversions.dart';
+
 class VectorError implements Exception {
   final String message;
-  VectorError(this.message);
+  const VectorError(this.message);
 }
 
 class Vector<T extends num> {
@@ -8,15 +10,12 @@ class Vector<T extends num> {
   const Vector(this.elements);
   Vector.generate(int length, T Function(int) generator)
       : elements = List.generate(length, generator).toList();
-  Vector.zeros(int num) : this.generate(num, (index) => _zeroVal());
+  Vector.zeros(int num) : this.generate(num, (index) => zeroVal());
   Vector.basis(int num, int index)
-      : this.generate(num, (i) => i == index ? _oneVal() : _zeroVal());
+      : this.generate(num, (i) => i == index ? oneVal() : zeroVal());
 
-  Vector<U> as<U extends num>() => Vector(elements.map((e) {
-        if (U == double) return e.toDouble() as U;
-        if (U == int) return e.toInt() as U;
-        return e as U;
-      }).toList());
+  Vector<U> as<U extends num>() =>
+      Vector(elements.map(convertNumberTo<U>).toList());
 
   int get length => elements.length;
   T operator [](int index) {
@@ -28,12 +27,12 @@ class Vector<T extends num> {
   }
 
   Vector<T> padStart(int num, {T? value}) {
-    value ??= _zeroVal();
+    value ??= zeroVal();
     return Vector.generate(num, (index) => value!).concat(this);
   }
 
   Vector<T> padEnd(int num, {T? value}) {
-    value ??= _zeroVal();
+    value ??= zeroVal();
     return concat(Vector.generate(num, (index) => value!));
   }
 
@@ -82,7 +81,4 @@ class Vector<T extends num> {
     return Vector.generate(
         length, (index) => operation(this[index], other[index]));
   }
-
-  static T _zeroVal<T extends num>() => T == double ? 0.0 as T : 0 as T;
-  static T _oneVal<T extends num>() => T == double ? 1.0 as T : 1 as T;
 }

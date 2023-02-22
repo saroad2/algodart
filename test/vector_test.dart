@@ -1,14 +1,7 @@
-import 'dart:math';
-
 import 'package:algodart/vector.dart';
 import 'package:test/test.dart';
 
-final testRandom = Random();
-List<double> randomDoubleList(int length) =>
-    List.generate(length, (index) => testRandom.nextDouble());
-List<int> randomIntList(int length, {int minNumber = 0, int maxNumber = 100}) =>
-    List.generate(length,
-        (index) => testRandom.nextInt(maxNumber - minNumber) + maxNumber);
+import 'random_methods.dart';
 
 void main() {
   group("Constructors", () {
@@ -379,7 +372,7 @@ void main() {
     test("whole divide int operation on two vectors successful", () {
       final n = 5;
       final v1 = Vector(randomIntList(n)),
-          v2 = Vector(randomIntList(n, minNumber: 1));
+          v2 = Vector(randomIntList(n, minValue: 1));
       final v = v1 ~/ v2;
       expect(v, isA<Vector<int>>());
       expect(v.length, n);

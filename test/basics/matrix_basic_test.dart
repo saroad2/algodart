@@ -1,8 +1,8 @@
 import 'package:algodart/matrix.dart';
 import 'package:test/test.dart';
 
-import 'random_methods.dart';
-import 'test_utils.dart';
+import '../random_methods.dart';
+import '../test_utils.dart';
 
 const List<Type> numberTypes = [int, double];
 

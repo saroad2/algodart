@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:algodart/exceptions.dart';
 import 'package:algodart/number_conversions.dart';
 
@@ -66,6 +68,20 @@ class Vector<T extends num> {
     return _operateElementWise(other,
         operation: (a, b) => a ~/ b, methodName: "divide");
   }
+
+  T dot(Vector<T> other) {
+    if (length != other.length) {
+      throw VectorError(
+          "Cannot calculate do product of vectors with different lengths");
+    }
+    num value = 0;
+    for (var i = 0; i < length; i++) {
+      value += this[i] * other[i];
+    }
+    return value as T;
+  }
+
+  double norm() => sqrt(this.dot(this));
 
   Vector<U> _operateElementWise<U extends num>(dynamic other,
       {required U Function(T, num) operation, required String methodName}) {

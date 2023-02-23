@@ -1,8 +1,8 @@
 import 'package:algodart/vector.dart';
 import 'package:test/test.dart';
 
-import 'random_methods.dart';
-import 'test_utils.dart';
+import '../random_methods.dart';
+import '../test_utils.dart';
 
 void main() {
   group("Constructors", () {

@@ -1,8 +1,8 @@
+import 'package:algodart/exceptions.dart';
 import 'package:algodart/number_conversions.dart';
 
-class VectorError implements Exception {
-  final String message;
-  const VectorError(this.message);
+class VectorError extends MessagedException {
+  const VectorError(super.message);
 }
 
 class Vector<T extends num> {
@@ -10,7 +10,9 @@ class Vector<T extends num> {
   const Vector(this.elements);
   Vector.generate(int length, T Function(int) generator)
       : elements = List.generate(length, generator).toList();
-  Vector.zeros(int num) : this.generate(num, (index) => zeroVal());
+  Vector.value(int num, {required T value})
+      : this.generate(num, (index) => value);
+  Vector.zeros(int num) : this.value(num, value: zeroVal<T>());
   Vector.basis(int num, int index)
       : this.generate(num, (i) => i == index ? oneVal() : zeroVal());
 

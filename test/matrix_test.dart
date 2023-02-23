@@ -2,6 +2,7 @@ import 'package:algodart/matrix.dart';
 import 'package:test/test.dart';
 
 import 'random_methods.dart';
+import 'test_utils.dart';
 
 const List<Type> numberTypes = [int, double];
 
@@ -111,12 +112,9 @@ void main() {
             m2 = Matrix(randomMatrixElements<T>(rows2, columns2));
         expect(
             () => m1.concatHorizontaly(m2),
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "message",
-              "Cannot concat matrices horizontally "
-                  "with different number of rows",
-            )));
+            throwsWithMessage<MatrixError>(
+              "Cannot concat matrices horizontally with different number of rows",
+            ));
       });
       test("$T matrices concat vertically", () {
         int rows1 = 3, rows2 = 4, columns = 7;
@@ -141,12 +139,9 @@ void main() {
             m2 = Matrix(randomMatrixElements<T>(rows2, columns2));
         expect(
             () => m1.concatVertically(m2),
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "message",
-              "Cannot concat matrices vertically "
-                  "with different number of columns",
-            )));
+            throwsWithMessage<MatrixError>(
+              "Cannot concat matrices vertically with different number of columns",
+            ));
       });
       test("$T matrices pad zeros horizontally from start", () {
         int rows = 3, columns1 = 4, columns2 = 7;
@@ -328,11 +323,9 @@ void main() {
             m2 = Matrix(randomMatrixElements<T>(rows2, columns));
         expect(
             () => func(m1, m2),
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "Message is different than expected",
+            throwsWithMessage<MatrixError>(
               "Cannot $methodName matrices with different number of rows",
-            )));
+            ));
       });
       test("$methodName $T opeation on different columns unsuccessfuly", () {
         final rows = 5, columns1 = 4, columns2 = 7;
@@ -340,23 +333,16 @@ void main() {
             m2 = Matrix(randomMatrixElements<T>(rows, columns2));
         expect(
             () => func(m1, m2),
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "Message is different than expected",
+            throwsWithMessage<MatrixError>(
               "Cannot $methodName matrices with different number of columns",
-            )));
+            ));
       });
       test("$methodName $T opeation on string unsuccessfuly", () {
         final rows = 5, columns = 7;
         final m = Matrix(randomMatrixElements<T>(rows, columns));
         final p = "bla";
-        expect(
-            () => func(m, p),
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "Error message is different than exptend",
-              "Cannot $methodName type String to matrix",
-            )));
+        expect(() => func(m, p),
+            throwsWithMessage("Cannot $methodName type String to matrix"));
       });
     });
   }
@@ -400,11 +386,9 @@ void main() {
             m2 = Matrix(randomMatrixElements<T>(rows2, columns));
         expect(
             () => m1 / m2,
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "Error message is different than expected",
+            throwsWithMessage<MatrixError>(
               "Cannot divide matrices with different number of rows",
-            )));
+            ));
       });
       test("divide $T opeation different columns unsuccessful", () {
         final rows = 5, columns1 = 4, columns2 = 7;
@@ -412,23 +396,18 @@ void main() {
             m2 = Matrix(randomMatrixElements<T>(rows, columns2));
         expect(
             () => m1 / m2,
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "Error message is different than expected",
+            throwsWithMessage(
               "Cannot divide matrices with different number of columns",
-            )));
+            ));
       });
       test("divide $T opeation on string unsuccessfuly", () {
         final rows = 5, columns = 7;
         final m = Matrix(randomMatrixElements<T>(rows, columns));
         final p = "bla";
         expect(
-            () => m / p,
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "Error is different than expected",
-              "Cannot divide type String to matrix",
-            )));
+          () => m / p,
+          throwsWithMessage<MatrixError>("Cannot divide type String to matrix"),
+        );
       });
     }
 
@@ -471,36 +450,31 @@ void main() {
         final m1 = Matrix(randomMatrixElements<T>(rows1, columns)),
             m2 = Matrix(randomMatrixElements<T>(rows2, columns));
         expect(
-            () => m1 ~/ m2,
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "Different message than expected",
-              "Cannot divide matrices with different number of rows",
-            )));
+          () => m1 ~/ m2,
+          throwsWithMessage<MatrixError>(
+            "Cannot divide matrices with different number of rows",
+          ),
+        );
       });
       test("whole divide $T opeation different columns unsuccessful", () {
         final rows = 5, columns1 = 4, columns2 = 7;
         final m1 = Matrix(randomMatrixElements<T>(rows, columns1)),
             m2 = Matrix(randomMatrixElements<T>(rows, columns2));
         expect(
-            () => m1 ~/ m2,
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "Different message than expected",
-              "Cannot divide matrices with different number of columns",
-            )));
+          () => m1 ~/ m2,
+          throwsWithMessage<MatrixError>(
+            "Cannot divide matrices with different number of columns",
+          ),
+        );
       });
       test("whole divide $T opeation on string unsuccessfuly", () {
         final rows = 5, columns = 7;
         final m = Matrix(randomMatrixElements<T>(rows, columns));
         final p = "bla";
         expect(
-            () => m ~/ p,
-            throwsA(isA<MatrixError>().having(
-              (e) => e.message,
-              "different message than expected",
-              "Cannot divide type String to matrix",
-            )));
+          () => m ~/ p,
+          throwsWithMessage<MatrixError>("Cannot divide type String to matrix"),
+        );
       });
     }
 

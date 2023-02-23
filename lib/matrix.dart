@@ -1,8 +1,8 @@
+import 'package:algodart/exceptions.dart';
 import 'package:algodart/number_conversions.dart';
 
-class MatrixError implements Exception {
-  final String message;
-  const MatrixError(this.message);
+class MatrixError extends MessagedException {
+  const MatrixError(super.message);
 }
 
 class Matrix<T extends num> {

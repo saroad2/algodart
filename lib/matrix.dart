@@ -7,7 +7,12 @@ class MatrixError extends MessagedException {
 
 class Matrix<T extends num> {
   final List<List<T>> elements;
-  const Matrix(this.elements);
+  Matrix(this.elements)
+      : assert(elements.isNotEmpty, "Matrix must have at least one row."),
+        assert(
+          elements.every((row) => row.length == elements[0].length),
+          "Matrix must have equal number of columns for each row.",
+        );
   Matrix.generate(int rows, int columns, T Function(int, int) generator)
       : elements = List.generate(
           rows,

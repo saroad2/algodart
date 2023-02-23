@@ -48,6 +48,30 @@ void main() {
           expect(m.getAt(i, i), 1);
         }
       });
+      test('Matrix $T constructor fail with 0 rows', () {
+        expect(
+          () => Matrix<T>([]),
+          throwsA(isA<AssertionError>().having(
+            (e) => e.message,
+            "Different message then expected",
+            "Matrix must have at least one row.",
+          )),
+        );
+      });
+      test('Matrix $T constructor fail with different number of columns', () {
+        expect(
+          () => Matrix<T>([
+            [randomValue<T>(), randomValue<T>(), randomValue<T>()],
+            [randomValue<T>(), randomValue<T>()],
+            [randomValue<T>(), randomValue<T>(), randomValue<T>()],
+          ]),
+          throwsA(isA<AssertionError>().having(
+            (e) => e.message,
+            "Different message then expected",
+            "Matrix must have equal number of columns for each row.",
+          )),
+        );
+      });
     }
 
     testMatrixConstructors<int>();
